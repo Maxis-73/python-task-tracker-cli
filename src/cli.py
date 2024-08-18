@@ -9,7 +9,7 @@ def cli():
 
 # Listing tasks
 @cli.command()
-def list():
+def tasks():
     data = JsonManager.read_json()
     if len(data) <= 0:
         print('There are no pending tasks')
@@ -25,22 +25,19 @@ def list():
 @cli.command()
 @click.argument('task', type=str)
 def add(task):
-    try:
-        data = JsonManager.read_json()
-        newID = len(data) + 1
-        now = datetime.now()
-        task = {
-            'id': newID,
-            'description': task,
-            'status': 'todo',
-            'createdAt': now.strftime("%d/%m/%Y %H:%M:%S"),
-            'updatedAt': ''
-        }
-        data.append(task)
-        JsonManager.write_json(data)
-        print(f"Task added successfully (ID: {task['id']})")
-    except:
-        print("An exception occurred")
+    data = JsonManager.read_json()
+    newID = len(data) + 1
+    now = datetime.now()
+    task = {
+        'id': newID,
+        'description': task,
+        'status': 'todo',
+        'createdAt': now.strftime("%d/%m/%Y %H:%M:%S"),
+        'updatedAt': ''
+    }
+    data.append(task)
+    JsonManager.write_json(data)
+    print(f"Task added successfully (ID: {task['id']})")
 
 #Deleting task
 @cli.command()
@@ -59,6 +56,22 @@ def delete(id):
         print('Task deleted')
     else:
         print('Task not found')
+
+@cli.command()
+@click.argument('id', type = int)
+@click.option('--task', required=True, help="New task description")
+def update(id, task):
+    data = JsonManager.read_json()
+    item = next((t for t in data if t['id'] == id), None)
+    if not item:
+        print(f'Task with ID {id} not found')
+    else:
+        if task is not None:
+            item['description'] = task
+            now = datetime.now()
+            item['updatedAt'] = now.strftime("%d/%m/%Y %H:%M:%S")
+        JsonManager.write_json(data)
+        print(f'Task with ID {id} has been updated')
 
 if __name__ == '__main__':
     cli()
