@@ -1,4 +1,3 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Task Tracker CLI.md</title><style></style></head><body id="preview">
 <h1 class="code-line" data-line-start="0" data-line-end="1"><a id="Task_Tracker_CLI_0"></a>Task Tracker CLI</h1>
 <p class="has-line-data" data-line-start="2" data-line-end="3">Instructions</p>
 <ol>
