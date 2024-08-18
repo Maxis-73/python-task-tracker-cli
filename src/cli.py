@@ -42,5 +42,23 @@ def add(task):
     except:
         print("An exception occurred")
 
+#Deleting task
+@cli.command()
+@click.argument('id', type=int)
+def delete(id):
+    data = JsonManager.read_json()
+    for x in data:
+        if x['id'] == id:
+            task = x
+        else:
+            task = None
+        break
+    if task is not None:
+        data.remove(task)
+        JsonManager.write_json(data)
+        print('Task deleted')
+    else:
+        print('Task not found')
+
 if __name__ == '__main__':
     cli()
